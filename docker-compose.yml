@@ -1,0 +1,12 @@
+# docker-compose.yml
+version: "3.9"
+services:
+  juniorclimbs:
+    build: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./juniorclimbs.db:/app/juniorclimbs.db
+    environment:
+      - DATABASE_URL=sqlite:///./juniorclimbs.db
+    restart: unless-stopped
