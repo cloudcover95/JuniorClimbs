@@ -1,112 +1,70 @@
 # JuniorClimbs
-edge native local management open source software
-# JuniorClimbs
 
-**Edge-native, local-first climbing gym & coaching management platform**  
-Sovereign open-source powerhouse combining the best of JuniorCoach **Join It** membership power.
+**Edge-native, local-first climbing gym & coaching management platform.**
 
-> Local-first. Coaching-first. Route-setting intelligent. Spatially aware. Community-powered.
+A sovereign, open-source system built for independent climbing gyms, routesetters, and coaches who want full data ownership, offline reliability, and powerful local intelligence.
 
-JuniorClimbs is the **sovereign, edge-native** evolution of climbing gym software. It cross-pollinates **every major feature** from:
+JuniorClimbs combines deep athlete coaching tools, modern gym operations, rich route setting intelligence, community features, and spatial awareness into one unified local-first platform.
 
-- **JuniorCoach** — deep coaching, athlete tracking, training plans, rosters, progress
-- **Rock Gym Pro** — waivers, memberships, POS, fast check-in, bookings, analytics
-- **Clava** — modern climbing-gym UX, multisite thinking, strong operational tools
-- **KAYA (the climber’s app)** — beta videos, community logging/ratings/feedback, new set notifications, progress tracking, setter analytics
-- **Join It** — robust membership management, recurring billing concepts, automated workflows, self-service, auditing & reporting foundation
+## Core Philosophy
 
-**Plus unique superpowers**:
-- Full **Route Setting Sandbox** with monthly planning, historical tracking + proactive/future-pushing recommendations
-- **Whole-room boulder views** and terrain projection sandbox (via JuniorOmega spatial + visualization)
-- **Crowd-sourced route submissions** via clean web dashboard (HTML port, hostable on your .brave domain)
-- **BitNet-powered on-device intelligence** for smart recommendations and planning
-- Deep integration with **JuniorOmega** (spatial LiDAR/ARKit point clouds, AR, fabrication) and **crispy-mouse** (deterministic PIO input & macros)
-- Production-grade **PostgreSQL** backend for auditing, taxes, complex reporting & efficiency
-- Hybrid **Python (core) + Node.js (services/web)** architecture
+- **Local-first & Sovereign** — Works completely offline. Your data stays yours.
+- **Climbing-native** — Built from the ground up for bouldering and sport climbing gyms.
+- **Setter-first intelligence** — Monthly planning, proactive recommendations, terrain projection, and optical analysis.
+- **Low-power edge computing** — Runs efficiently on Apple Silicon and small clusters.
+- **Community-powered** — Supports crowd-sourced routes and climber feedback.
 
-Built for independent gyms, routesetters, coaches, and communities who want **full data ownership**, offline reliability, low-power edge deployment, and AI that runs locally.
+## Key Capabilities
 
-**JuniorCloud LLC** • MIT License • Python-first + Node.js + PostgreSQL • Edge Native
+### Operations & Membership
+- Member profiles and lifecycle management
+- Digital waivers with e-signature
+- Fast check-in (search, QR, hardware triggers)
+- Point of Sale (POS) with inventory management
+- Bookings, classes, and capacity tools
+- Strong audit logging and exportable reports for compliance & taxes
 
-## Why JuniorClimbs Now?
+### Coaching & Athlete Development
+- Training plans and practice scheduling
+- Detailed ascent logging (sends, attempts, style, notes)
+- Progress tracking with grade history and volume analytics
+- Personalized insights and recommendations
 
-Traditional tools force you into the cloud. KAYA is great for climbers but limited for full gym ops. Rock Gym Pro and Clava are powerful but cloud/SaaS. Join It excels at memberships but isn't climbing-native.
+### Route Setting Intelligence (Standout Feature)
+- Comprehensive route database (grade, color, sector, setter, dates, popularity)
+- Monthly setting plans with historical tracking
+- Proactive BitNet-powered recommendations (grade balance, rotation, style gaps)
+- **Route Setting Sandbox** — Project and plan new problems virtually
+- Whole-room terrain visualization and projection tools
+- Optical analysis from photos, scans, or point clouds (hold identification, move types, beta suggestions)
 
-**JuniorClimbs gives you everything in one sovereign, local-first system** — with climbing-specific depth, route setter superpowers, spatial awareness, community features (KAYA-style), and strong membership/audit tools (Join It-style) — all running on your hardware with optional sovereign federation.
+### Spatial & Optical Tools
+- Import scans from iPad LiDAR, drones, trail cams, or phone photos
+- JuniorOmega integration for point clouds and AR overlays
+- BitNet vision engine for:
+  - Grade estimation from images
+  - Move type detection (dyno, slab, compression, overhang)
+  - Hold cluster identification
+  - Auto-generated setter notes and beta suggestions
 
-## Core Philosophy & Stack
+### Community Features
+- Rich send logging and climber feedback
+- Crowd-sourced route submissions via web dashboard
+- New set awareness and engagement tools
 
-- **Python best foot forward** — FastAPI + SQLAlchemy core (clean, fast, ecosystem-friendly)
-- **PostgreSQL** for production (auditing triggers, JSONB for flexible climbing data, powerful reporting/tax exports, complex queries)
-- **Node.js** for complementary services (real-time web dashboard, crowd-sourced submissions, potential Socket.io live updates for setters)
-- **BitNet-mlx** (ternary 1.58-bit) hooks for on-device intelligence without heavy GPUs
-- **JuniorOmega** integration for spatial point clouds, whole-room visualization, AR route projection, and fabrication pipelines
-- **crispy-mouse** for deterministic input, kiosk macros, and low-latency hardware triggers
-- Local-first by default. Optional sovereign multi-node sync via Junior ecosystem patterns.
+### Hardware & Edge Integration
+- **crispy-mouse** deterministic macros for setters (physical buttons → instant analysis)
+- Local BitNet-mlx inference (runs entirely on-device)
+- Support for multi-node Apple Silicon clusters
 
-## Major Feature Areas (Fully Cross-Pollinated + Enhanced)
+## Tech Stack
 
-### 1. Membership & Operations Power (Rock Gym Pro + Clava + Join It)
-- Rich member profiles + membership lifecycle
-- Digital waivers with e-signature + archival
-- Fast multi-method check-in (QR, search, hardware via crispy-mouse)
-- Full POS + inventory
-- Bookings, classes, events, capacity management
-- **Join It-style**: Self-service portal concepts, recurring membership logic, automated reminders (local), digital cards, strong audit logging for compliance/taxes
-
-### 2. Coaching & Athlete Development (JuniorCoach + KAYA progress)
-- Training plans, rosters, practice planning
-- Detailed progress tracking with grade history, volume, style balance
-- **KAYA-style logging**: Sends + attempts + beta notes + ratings + (future) beta video links
-- Community feedback loop on climbs
-
-### 3. Route Setting Intelligence & Sandbox (Unique + KAYA setter tools)
-- Comprehensive **Route** model (grade, color, sector, setter, set/removal dates, hold types, popularity, feedback)
-- **Monthly Route Setting Plans** — plan sets historically and proactively push future sets
-- Historical tracking of what was set when + performance data (sends, ratings, feedback)
-- **Proactive recommendations** (BitNet-powered): "Balance grades this month", "Add more V4-V6 overhangs based on member data", "Rotate these popular problems"
-- **Route Setting Sandbox**:
-  - Project new terrains and route concepts in a virtual sandbox
-  - Whole-room boulder gym visualization (dashboard views)
-  - Integration points for JuniorOmega point clouds (import real gym scans)
-  - Planning tools for setters with G-code/fabrication hooks (via JuniorOmega)
-
-### 4. Spatial & Visualization Layer (JuniorOmega powered)
-- Whole-room boulder views in the dashboard
-- Project/preview new route terrains and layouts in sandbox mode
-- Future: AR overlays on iPad (JuniorOmega LiDAR + ARKit)
-- Point cloud ingestion for accurate gym digital twins
-
-### 5. Community & Crowd-Sourcing (KAYA-inspired + self-hosted)
-- Climbers can log sends with rich data (beta, rating, style)
-- **Crowd-sourced route submissions** via dedicated web dashboard (HTML/JS port)
-- New set notifications (local or push when federated)
-- Beta video / photo upload support (local storage)
-- Setter analytics: Which problems get the most love? What grades/styles are underserved?
-
-### 6. Auditing, Taxes, Reporting & Efficiency (Join It + PostgreSQL strength)
-- Full audit logging on sensitive actions
-- Membership billing history + export-ready data for taxes
-- Advanced reporting: Revenue, setter performance, route utilization, tax-friendly summaries
-
-### 7. On-Device Intelligence (BitNet + Junior ecosystem)
-- Local recommendations for training plans, next routes, and monthly setting balance
-- Deterministic automation via crispy-mouse macros
-
-## Tech Stack Details
-
-**Core Backend (Python)**
-- FastAPI + Uvicorn
-- SQLAlchemy 2.0 (PostgreSQL recommended for prod; SQLite for pure local dev)
-- Pydantic
-- Alembic for migrations
-
-**Intelligence**
-- BitNet-mlx integration points for local LLM-style recommendations
-
-**Spatial & Hardware**
-- JuniorOmega: Point cloud ingestion, spatial math, ARKit pipelines
-- crispy-mouse: PIO input, deterministic macros, kiosk/automation layer
+- **Backend**: Python + FastAPI + SQLAlchemy 2.0
+- **Database**: SQLite (local) or PostgreSQL (production)
+- **Intelligence**: BitNet-mlx (local 1.58-bit models)
+- **Spatial**: JuniorOmega point cloud & AR integration
+- **Frontend**: Modern local dashboard (expandable to Tauri/React)
+- **Macros & Hardware**: crispy-mouse deterministic input layer
 
 ## Quick Start
 
