@@ -3,7 +3,7 @@ edge native local management open source software
 # JuniorClimbs
 
 **Edge-native, local-first climbing gym & coaching management platform**  
-Sovereign open-source powerhouse combining the best of JuniorCoach + Rock Gym Pro + Clava + **KAYA** + **Join It** membership power.
+Sovereign open-source powerhouse combining the best of JuniorCoach **Join It** membership power.
 
 > Local-first. Coaching-first. Route-setting intelligent. Spatially aware. Community-powered.
 
