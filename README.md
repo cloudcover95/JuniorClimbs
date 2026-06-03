@@ -1,36 +1,48 @@
-# README.md
 # JuniorClimbs
 
-**Edge-native local-first coaching + climbing gym POS platform**  
-*(Built under JuniorCloud LLC — enterprise Linux-first package for Mac Minis & Windows with NVIDIA AI chips)*
+**Multi-Modal Performance Imaging & Extraneous Sensing System**
 
-Zero-terminal, offline-first, BitNet-powered (1.58-bit LLM) for gyms. Designed to obsolete legacy systems with deterministic local compute.
+JuniorClimbs is evolving into a sovereign, edge-native platform for **room-scale multi-optical imaging** and **WiFi CSI movement tracking**, focused on high-performance sports analytics and human movement understanding.
 
-## Production Quick Start (Linux recommended first)
+It serves as the vision and spatial sensing layer for the JuniorCloud LLC stack, feeding rich environmental and biometric data into reasoning engines (BitNet-mlx) and deterministic execution layers (crispy-mouse).
 
-```bash
-git clone https://github.com/cloudcover95/JuniorClimbs.git
-cd JuniorClimbs
-docker compose up -d --build
-# or native: pip install -e ".[dev]" && alembic upgrade head && python -m backend.main
-**Edge-native local-first coaching + climbing gym POS platform**  
-*(Built under JuniorCloudllc)*
+## New Direction: Extraneous Imaging
 
-Zero-terminal, offline-first, BitNet-powered (1-bit LLM) for gyms and junior coaching orgs.
+- Multi-camera / multi-LiDAR room mapping
+- WiFi CSI-based non-visual movement and presence detection
+- Sensor fusion across optical and RF modalities
+- Designed for real-time sports performance analysis and AI coaching systems
 
-## Quick Start (MacBook Air M4)
+## Architecture
 
-```bash
-cd /Users/nico/Documents/JuniorCloud/JuniorClimbs
-python3 -m backend.main
-Coach login: coach / juniorclimbs2026
-Full OpenAPI: http://localhost:8000/docs
-Features
+```text
+Optical Sensors (Cameras, LiDAR, TrueDepth)
+          ↓
+    MultiOpticalFusion (crispy-mouse)
+          ↓
+WiFi CSI Tracker (room movement)
+          ↓
+SpatialSensingPipeline (BitNet-mlx)
+          ↓
+JuniorAGI / JuniorMemSys (memory)
+          ↓
+JuniorStock / crispy-mouse (action)
+```
 
-Coaching Suite: Athletes + Practices
-POS Domain: Day Pass, Chalk, Shoes with UUID offline ledger
-BitNet IoT: RFID ascent logging + camera hold-wear prediction (local only)
-Clean Architecture ready for Tauri desktop + automerge CRDT
+## Integration with JuniorCloud LLC
 
-Location: /Users/nico/Documents/JuniorCloud/JuniorClimbs
-Built for MacBook Air M4. Local-first. Always on.
+| Component       | Role                                      |
+|-----------------|-------------------------------------------|
+| **crispy-mouse**| Multi-optical fusion + WiFi CSI input layer |
+| **BitNet-mlx**  | Converts spatial data into reasoning state  |
+| **JuniorAGI_SDK** | Long-term memory of movement patterns    |
+| **JuniorHome**  | Orchestration of the full sensing stack     |
+
+## Technical Goals
+
+- Edge-first (Apple Silicon + embedded)
+- Low write amplification
+- Deterministic output where possible
+- Clean black-box interfaces for sensor drivers
+
+Part of building a complete sovereign spatial computing and performance intelligence stack.
