@@ -1,0 +1,49 @@
+# pyproject.toml
+[project]
+name = "juniorclimbs"
+version = "0.5.0"
+description = "Edge-native local-first coaching + climbing gym POS platform (JuniorCloud LLC)"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.11"
+authors = [{name = "JuniorCloud LLC"}]
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.6",
+    "sqlalchemy>=2.0.36",
+    "pydantic>=2.9.2",
+    "python-multipart>=0.0.12",
+    "alembic>=1.13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "httpx>=0.27",
+    "ruff>=0.5",
+    "mypy>=1.10",
+]
+
+[project.scripts]
+juniorclimbs = "backend.main:run"
+juniorclimbs-desktop = "desktop_launcher:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+ignore_missing_imports = true
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q --tb=short"

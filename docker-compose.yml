@@ -2,11 +2,33 @@
 version: "3.9"
 services:
   juniorclimbs:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: juniorclimbs:0.5.0-edge
+    container_name: juniorclimbs
     ports:
       - "8000:8000"
     volumes:
-      - ./juniorclimbs.db:/app/juniorclimbs.db
+      - juniorclimbs_data:/app/juniorclimbs.db
     environment:
       - DATABASE_URL=sqlite:///./juniorclimbs.db
+      - PYTHONUNBUFFERED=1
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    # Linux-first production; also runs on Mac Mini (Docker Desktop) + Windows (Docker Desktop + WSL2 + NVIDIA Container Toolkit)
+
+volumes:
+  juniorclimbs_data:
