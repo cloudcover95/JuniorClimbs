@@ -1,48 +1,35 @@
 # JuniorClimbs
 
-**Multi-Modal Performance Imaging & Extraneous Sensing System**
+**Multi-Modal Performance & Facility Management System**
 
-JuniorClimbs is evolving into a sovereign, edge-native platform for **room-scale multi-optical imaging** and **WiFi CSI movement tracking**, focused on high-performance sports analytics and human movement understanding.
+JuniorClimbs is a sovereign, edge-native platform for **sports performance analysis**, **room-scale multi-modal sensing**, and **gym/facility management** (including POS and operations tooling).
 
-It serves as the vision and spatial sensing layer for the JuniorCloud LLC stack, feeding rich environmental and biometric data into reasoning engines (BitNet-mlx) and deterministic execution layers (crispy-mouse).
+It serves both the technical performance side (movement analysis, imaging, biometrics) and the operational side (member management, point-of-sale, scheduling) under one unified sovereign stack.
 
-## New Direction: Extraneous Imaging
+## Core Capabilities
 
-- Multi-camera / multi-LiDAR room mapping
-- WiFi CSI-based non-visual movement and presence detection
-- Sensor fusion across optical and RF modalities
-- Designed for real-time sports performance analysis and AI coaching systems
+### Performance & Sensing Side
+- Multi-optical room mapping and movement tracking
+- WiFi CSI-based non-visual sensing
+- Integration with BitNet-mlx for intelligent assessment
+- Performance reporting and coaching insights
 
-## Architecture
+### Facility & Operations Side (Manager / POS / Gym)
+- Member and client management
+- Point-of-Sale (POS) and billing
+- Class and session scheduling
+- Equipment and facility tracking
+- Integration with the broader JuniorHome orchestrator
 
-```text
-Optical Sensors (Cameras, LiDAR, TrueDepth)
-          ↓
-    MultiOpticalFusion (crispy-mouse)
-          ↓
-WiFi CSI Tracker (room movement)
-          ↓
-SpatialSensingPipeline (BitNet-mlx)
-          ↓
-JuniorAGI / JuniorMemSys (memory)
-          ↓
-JuniorStock / crispy-mouse (action)
-```
+## Integration with JuniorCloud LLC Ecosystem
 
-## Integration with JuniorCloud LLC
+| Component       | Role in JuniorClimbs                              |
+|-----------------|----------------------------------------------------|
+| **crispy-mouse**| Low-level sensor input and deterministic execution |
+| **BitNet-mlx**  | Intelligent analysis and reasoning                 |
+| **JuniorHome**  | Central orchestration and automation               |
+| **JuniorOmega** | Spatial sensing and fabrication pipelines          |
 
-| Component       | Role                                      |
-|-----------------|-------------------------------------------|
-| **crispy-mouse**| Multi-optical fusion + WiFi CSI input layer |
-| **BitNet-mlx**  | Converts spatial data into reasoning state  |
-| **JuniorAGI_SDK** | Long-term memory of movement patterns    |
-| **JuniorHome**  | Orchestration of the full sensing stack     |
+JuniorClimbs bridges high-performance sensing with practical gym and facility operations under a fully local, air-gapped architecture.
 
-## Technical Goals
-
-- Edge-first (Apple Silicon + embedded)
-- Low write amplification
-- Deterministic output where possible
-- Clean black-box interfaces for sensor drivers
-
-Part of building a complete sovereign spatial computing and performance intelligence stack.
+Part of building a complete sovereign technology stack under JuniorCloud LLC.
