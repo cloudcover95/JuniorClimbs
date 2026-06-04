@@ -1,12 +1,12 @@
 # JuniorClimbs
 
-**Complete Sovereign POS + Member Experience System**
+**Complete Member Experience + Operations System**
 
-- Employee POS with keychain/wafer barcode swipe + monitor confirmation
-- QR first-time waiver auto-onboarding (zero employee data entry)
-- Real-time balance tracking for merch, snacks, drinks
-- Second Brain controlled finance ledger with Web3-style immutable tx hashes
-- Renewal audits, member status pulls, discount/offer injection
-- Admin web dashboards for operations, marketing, communication
+- Employee terminal: keychain swipe + customer info on requisition (hard copy option)
+- QR waiver auto-onboarding
+- Real-time balance + Second Brain controlled finance ledger (Web3-style immutable commits)
+- Calendar & events: daily yoga, crossfit, climbing classes, camps
+- Marketing campaigns + scheduling tools for admins
+- Dynamic optimization hooks (BitNet 3.0 x 1.58 techniques for personalized offers and scheduling)
 
-Fully integrated with JuniorCloud LLC ecosystem (BitNet, manifolds, routed execution, second brain memory).
+Privacy-friendly design that doesn't deter enthusiasts while giving staff the tools they need.
