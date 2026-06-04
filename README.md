@@ -6,8 +6,8 @@
 - Safety zones on optical dash + agent interface (now includes maintenance/finance actions)
 - Full calendar/events + marketing campaigns
 - Second Brain finance ledger (Web3-style)
-- Portable CSV/Excel for maintenance and finance reporting
-- Basic admin reporting endpoints (overdue maintenance, balance sheet, ledger)
-- Dynamic 3.0 x 1.58 optimization hooks
+- Portable CSV/Excel for maintenance and finance
+- Admin reporting endpoints
+- Basic recommendation/forecasting hooks (ready for BitNet 3.0 manifold + LowRankAdapter optimization)
 
 All additive and integrated with the sovereign JuniorCloud LLC stack.
