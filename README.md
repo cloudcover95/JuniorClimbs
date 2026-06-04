@@ -2,12 +2,12 @@
 
 **Latest State**
 
-- Employee terminal with privacy-friendly customer info + hard copy option
-- Safety zones on optical dash + agent interface
-- Full calendar/events (yoga, crossfit, classes, camps)
-- Marketing campaigns + Second Brain finance ledger (Web3-style)
-- Maintenance logs/schedules/reports with portable CSV/Excel import/export (forward/backwards compatible)
-- Finance reporting layer (balance sheets, tax-ready exports)
-- Dynamic optimization hooks (BitNet 3.0 x 1.58 techniques)
+- Employee terminal with privacy-friendly customer info (hard copy mode)
+- Safety zones on optical dash + agent interface (now includes maintenance/finance actions)
+- Full calendar/events + marketing campaigns
+- Second Brain finance ledger (Web3-style)
+- Portable CSV/Excel for maintenance and finance reporting
+- Basic admin reporting endpoints (overdue maintenance, balance sheet, ledger)
+- Dynamic 3.0 x 1.58 optimization hooks
 
-All systems designed to be sovereign, auditable, and extensible.
+All additive and integrated with the sovereign JuniorCloud LLC stack.
