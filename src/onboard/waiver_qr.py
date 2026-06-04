@@ -8,10 +8,9 @@ class WaiverOnboard:
         self.data_store = data_store
 
     def process_qr_scan(self, qr_payload: Dict) -> dict:
-        """Member scans QR code on tablet/kiosk. Auto-onboard."""
         required = ["name", "email", "emergency_contact", "tier"]
         if not all(k in qr_payload for k in required):
-            return {"status": "error", "message": "Incomplete waiver data"}
+            return {"status": "error", "message": "Incomplete waiver data from QR"}
 
         member_id = f"M{int(time.time())}"
         keychain_id = f"KC{int(time.time())}"
@@ -35,5 +34,5 @@ class WaiverOnboard:
             "status": "onboarded",
             "member_id": member_id,
             "keychain_id": keychain_id,
-            "message": "Waiver signed and processed. Keychain activated. Welcome!"
+            "message": "Waiver signed via QR. Profile created. Keychain activated."
         }

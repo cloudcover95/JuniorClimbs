@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Optional, Dict
+from typing import Optional, Dict, Any
 
 @dataclass
 class MemberSession:
@@ -15,15 +15,16 @@ class MemberSession:
     status: str = "active"
 
 class EmployeePOS:
-    def __init__(self, data_store, ledger):
+    def __init__(self, data_store: Any, ledger: Any):
         self.data_store = data_store
         self.ledger = ledger
         self.active_sessions: Dict[str, MemberSession] = {}
 
     def swipe_keychain(self, barcode: str) -> dict:
+        """Employee-facing swipe confirmation on monitor/UI."""
         member = self.data_store.get_member_by_keychain(barcode)
         if not member or member.get("status") != "active":
-            return {"status": "denied", "reason": "inactive or invalid"}
+            return {"status": "denied", "reason": "inactive or invalid keychain"}
 
         session = MemberSession(
             member_id=member["id"],
@@ -39,8 +40,8 @@ class EmployeePOS:
             "status": "granted",
             "member_name": member["name"],
             "tier": member["tier"],
-            "balance": session.balance,
-            "ui_message": f"Welcome {member['name']} — Swipe confirmed"
+            "balance": round(session.balance, 2),
+            "ui_message": f"Welcome {member['name']} — Swipe confirmed on monitor"
         }
 
     def add_purchase(self, barcode: str, amount: float, item: str, category: str = "merch"):
@@ -50,7 +51,6 @@ class EmployeePOS:
         session = self.active_sessions[barcode]
         session.balance -= amount
 
-        # Record in second brain controlled ledger (Web3-style hash chain)
         entry = self.ledger.record_entry(
             member_id=session.member_id,
             entry_type="purchase",
@@ -63,24 +63,18 @@ class EmployeePOS:
 
         return {
             "success": True,
-            "new_balance": session.balance,
+            "new_balance": round(session.balance, 2),
             "tx_hash": entry.tx_hash,
             "message": f"{item} added. New balance: ${session.balance:.2f}"
         }
 
-    def inject_member_discount(self, barcode: str, percent: float, reason: str):
-        """Employee or second brain triggered targeted discount."""
-        if barcode not in self.active_sessions:
-            return {"success": False}
-        session = self.active_sessions[barcode]
-        discount_amount = session.balance * (percent / 100)
-        session.balance += discount_amount  # positive because it's a credit
-
-        entry = self.ledger.inject_discount(session.member_id, discount_amount, reason)
-        self.data_store.update_balance(session.member_id, session.balance)
-
+    def get_renewal_status(self, barcode: str):
+        member = self.data_store.get_member_by_keychain(barcode)
+        if not member:
+            return {"status": "unknown"}
         return {
-            "success": True,
-            "new_balance": session.balance,
-            "tx_hash": entry.tx_hash
+            "status": member.get("status"),
+            "renewal_due": member.get("renewal_date"),
+            "balance": round(member.get("balance", 0.0), 2),
+            "call_for_renew": member.get("renewal_date", "") < "2026-07-01"
         }
