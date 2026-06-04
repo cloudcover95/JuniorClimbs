@@ -1,38 +1,38 @@
 # path: src/operations/recommendation.py
 
-from typing import List, Dict
-
 class MaintenanceRecommender:
     """
-    Placeholder for future BitNet 3.0 / manifold-powered intelligent scheduling.
-    Currently simple rule-based; can be replaced with LowRankAdapter + manifold forecasting.
+    Example recommendation layer.
+    In public OSS this is rule-based.
+    In-house systems can replace with BitNet 3.0 / manifold-powered models
+    for predictive maintenance scheduling while keeping the same interface.
     """
 
     def __init__(self, maintenance_system):
         self.maintenance = maintenance_system
 
-    def suggest_next_actions(self) -> List[dict]:
+    def suggest_next_actions(self):
         overdue = self.maintenance.get_overdue()
-        suggestions = []
-        for log in overdue:
-            suggestions.append({
+        return [
+            {
                 "equipment_id": log.equipment_id,
                 "action": log.action,
                 "priority": "high" if log.due_date else "medium",
-                "suggested_by": "rule_based"  # Future: manifold / LowRankAdapter model
-            })
-        return suggestions
+                "suggested_by": "rule_based"
+            }
+            for log in overdue
+        ]
 
 class FinanceRecommender:
     """
-    Placeholder for future BitNet 3.0 personalized offer timing and resource allocation.
+    Example offer timing layer.
+    Public OSS version is simple.
+    In-house can use LowRankAdapter + manifold member behavior models
+    for personalized discount timing.
     """
 
     def __init__(self, ledger):
         self.ledger = ledger
 
-    def suggest_offers(self, member_id: str) -> List[dict]:
-        # Simple example; future version would use adapter-based member behavior model
-        return [
-            {"type": "discount", "percent": 10, "reason": "loyalty", "suggested_by": "rule_based"}
-        ]
+    def suggest_offers(self, member_id: str):
+        return [{"type": "discount", "percent": 10, "reason": "example", "suggested_by": "rule_based"}]
