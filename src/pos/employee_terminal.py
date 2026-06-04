@@ -16,19 +16,19 @@ class MemberInfo:
 
 class EmployeeTerminal:
     """
-    Employee-facing terminal.
-    Shows customer information on requisition (hard copy option available).
-    Maintains hard land lines / privacy-friendly flow to not deter enthusiasts.
+    Employee terminal.
+    Shows customer information on requisition (hard copy / privacy option available).
+    Maintains hard land lines so enthusiasts are not deterred.
     """
 
     def __init__(self, data_store, pos_system):
         self.data_store = data_store
         self.pos = pos_system
 
-    def on_keychain_swipe(self, barcode: str, show_hard_copy: bool = False) -> dict:
+    def on_keychain_swipe(self, barcode: str, privacy_mode: bool = False) -> dict:
         member = self.data_store.get_member_by_keychain(barcode)
         if not member:
-            return {"status": "unknown", "message": "Keychain not recognized"}
+            return {"status": "unknown"}
 
         info = MemberInfo(
             member_id=member["id"],
@@ -40,7 +40,6 @@ class EmployeeTerminal:
             last_visit=member.get("last_visit")
         )
 
-        # Employee sees clean summary on monitor
         display = {
             "name": info.name,
             "tier": info.tier,
@@ -49,9 +48,8 @@ class EmployeeTerminal:
             "last_visit": info.last_visit or "First visit"
         }
 
-        if show_hard_copy:
-            # Print or show on secondary screen for privacy-conscious members
-            display["hard_copy_ready"] = True
+        if privacy_mode:
+            display["hard_copy_mode"] = True  # Print or secondary screen only
 
         return {
             "status": "recognized",
