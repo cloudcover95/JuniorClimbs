@@ -3,8 +3,8 @@
 class MaintenanceRecommender:
     """
     Example recommendation layer.
-    Public OSS version is event-aware (avoids scheduling heavy work during peak classes).
-    In-house systems can upgrade to BitNet 3.0 / manifold forecasting.
+    Public OSS version includes basic priority scoring and event awareness.
+    In-house systems can upgrade to BitNet 3.0 / manifold-powered predictive models.
     """
 
     def __init__(self, maintenance_system, events_calendar):
@@ -15,18 +15,19 @@ class MaintenanceRecommender:
         overdue = self.maintenance.get_overdue()
         suggestions = []
         for log in overdue:
+            priority = "high" if log.due_date else "medium"
             conflict = False
             if self.events:
                 daily = self.events.get_daily_schedule(date) if date else []
-                # Simple heuristic: avoid heavy maintenance during busy class periods
                 busy_slots = [e for e in daily if e.get("title", "").lower() in ["yoga", "crossfit", "class"]]
                 if busy_slots and log.action.lower() in ["replace", "heavy repair", "inspection"]:
                     conflict = True
+                    priority = "medium"  # deprioritize during peak times
 
             suggestions.append({
                 "equipment_id": log.equipment_id,
                 "action": log.action,
-                "priority": "high" if log.due_date else "medium",
+                "priority": priority,
                 "avoid_peak_classes": conflict,
                 "suggested_by": "rule_based"
             })
