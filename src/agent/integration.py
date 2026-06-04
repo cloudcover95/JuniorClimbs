@@ -26,8 +26,8 @@ class JuniorClimbsAgentInterface:
     def log_maintenance(self, equipment_id: str, action: str, performed_by: str, notes: str):
         return self.maintenance.add_log(equipment_id, action, performed_by, notes)
 
-    def get_maintenance_suggestions(self):
-        return self.maintenance_recommender.suggest_next_actions()
+    def get_maintenance_suggestions(self, date=None):
+        return self.maintenance_recommender.suggest_next_actions(date)
 
     def get_offer_suggestions(self, member_id: str):
         return self.finance_recommender.suggest_offers(member_id)
