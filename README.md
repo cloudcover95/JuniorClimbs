@@ -1,56 +1,40 @@
 # JuniorClimbs
 
-**Open-Source, Edge-Native Local Management Software for Climbing Gyms**
+**Open-Source, Edge-Native Local Management Software for Climbing Gyms with Spatial Kinematics & AI**
 
-JuniorClimbs is a sovereign, offline-first desktop application built for climbing gyms. As part of the JuniorCloudllc ecosystem, it delivers a complete, local management solution with no cloud dependency — everything runs on your hardware.
+JuniorClimbs is a sovereign, offline-first desktop application for climbing gyms, now enhanced with advanced spatial/kinematic intelligence. Part of the JuniorCloudllc ecosystem for edge-native sovereign compute.
 
-## Key Features
+## Core Features
 
-- **Point of Sale (POS)**: Fast presets for day passes, merch, food & drinks; custom sales; multiple payment methods including account balance top-ups.
-- **Member Management**: Profiles, current balances, membership expiry tracking with warnings, auto-renewal logic, and quick top-ups.
-- **Digital Waivers & Onboarding**: Secure liability waiver system with digital signature; seamless check-in for returning members and guided flow for new climbers.
-- **Safety & Operations**: Real-time wall/area status management (open / restricted / closed), maintenance logging, and staff override controls.
-- **Employee Scheduling**: Shift planning with built-in break rules (e.g., 8-hour shifts include 30-min lunch), legends, and notifications.
-- **Events & Sponsorships**: Create and manage events, partner booths, incentives, and marketing deployments.
-- **Intelligent Cognitive Layer**: Powered by BitNet ternary quantization and advanced plasticity models. Provides smart member insights, training recommendations, operational optimization, and self-improving signals.
-- **Rich Reporting**: Daily revenue tracking, expiring memberships, activity logs, and cross-domain analysis ready for Obsidian second-brain integration.
+- **Spatial & Kinematic Intelligence**: New `SpatialTernaryAutomata` module ingests LiDAR/point-cloud scans via Parquet, applies SVD manifold compression ($A = U \Sigma V^T$), and maps to 1.58b ternary logic for topological hold analysis and movement tracking.
+- **Point of Sale (POS)**, Member Management, Digital Waivers, Safety Zones, Employee Scheduling, Events (as before).
+- **Cognitive/AI Layer**: BitNet ternary quantization, plasticity training signals, Neural Engine routing for power-efficient inference.
+- **Data Architecture**: Strict Zero-Trust (02_Assets isolation), high-density Parquet lakes, TOML-driven automation, Obsidian knowledge graph export with cross-domain links (member behavior ↔ market regimes / climbing kinematics).
 
-## Why JuniorClimbs?
+## New in This Update (Ecosystem Sandbox Correction)
 
-- **Fully Local & Sovereign**: No subscriptions, no data leaving your gym. Runs entirely offline on your machine or local network.
-- **Edge-Native & Hardware Optimized**: Built for Apple Silicon (M-series) with efficient Metal/MPS performance. Ready for M5, Ultra, and future A-series mobile/edge devices.
-- **Staff-Friendly**: Clean point-and-click desktop interface (Tauri + TypeScript) designed for real gym employees — no terminal required for daily use.
-- **Intelligent but Lightweight**: AI features enhance daily operations without bloat or external API calls.
-- **Production Beta Ready**: Designed for real-world in-gym testing and live deployment.
+- Root node failures in Tauri IPC and raw mesh processing resolved by direct Parquet ingestion + SVD compression before ternary quantization.
+- Prevents Metal OOM on high-density spatial data.
+- Enables autonomous spatial updates and kinematic dampening integration (future merge with crispy-mouse).
 
 ## Tech Stack
 
-- **Desktop App**: Tauri (Rust core + TypeScript/React frontend)
-- **Backend & Logic**: Python with modern frameworks
-- **Database & Persistence**: Alembic migrations + high-density Parquet data lakes
-- **AI & Cognitive**: Custom BitNet-mlx 1.58-bit ternary models, CognitiveBlackBox for plasticity & training signals, SVD manifold compression
-- **Automation**: TOML-driven jobs, nightly consolidation & Obsidian export with knowledge graph links
+- Tauri (Rust + TS/React)
+- Python + mlx.core for spatial automata and AI
+- PyArrow/Parquet for data lakes
+- Zero-trust isolation (01_Legal vs 02_Assets)
 
 ## Getting Started
 
-Clone the repo and follow the setup in `docs/` or run the desktop app directly. Full installation and configuration guides are available in the repository.
+See core/spatial_automata.py for the new module. Run the test pipeline to validate.
 
-For production use, deploy via Docker or native binary on your gym's hardware.
+Full setup in previous README sections remains valid.
 
-## Roadmap & Vision
+## Roadmap
 
-- Expand intelligent recommendations for personalized training plans and member engagement
-- Deeper integration with JuniorHome for full ecosystem orchestration (POS + power telemetry + automation)
-- Advanced topological kinematics and movement analysis in JuniorClimbs
-- Cross-platform support and Linux beta for gym testing
-- Sovereign node farm scaling across Apple Silicon clusters
+- Integrate with crispy-mouse for kinematic dampening overlay
+- Autonomous agent loops for unsupervised gym geometry updates
+- Cross-repo inference (apply spatial methods to JuniorQuant telemetry)
+- M5/Ultra/ANE optimization via new hardware backend
 
-JuniorClimbs is part of the broader JuniorCloudllc vision for edge-native, air-gapped, intelligent infrastructure.
-
-## License
-
-MIT License — free to use, modify, and distribute.
-
----
-
-Built with ❤️ for the climbing community by JuniorCloudllc. Local. Sovereign. Intelligent.
+MIT License. Local. Sovereign. Intelligent.
