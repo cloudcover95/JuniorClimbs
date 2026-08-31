@@ -12,9 +12,11 @@ from backend.routers import pos as pos_router, athletes as athletes_router, prac
 from backend.routers import stonefield as stonefield_router
 from backend.routers import navmesh as navmesh_router
 from backend.routers import forum as forum_router
+from backend.routers import sphere as sphere_router
 from backend.models_stonefield import StoneField  # noqa: F401
 from backend.models_navmesh import TilePack  # noqa: F401
 from backend.models_forum import CrowdEvent  # noqa: F401
+from backend.models_sphere import ArenaNode  # noqa: F401
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -34,7 +36,7 @@ def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.username
 
 def _bitnet_log_callback(event_type: str, payload: dict):
-    print(f"[BitNet][LOG] {event_type}: {payload}")
+    print(f"[BitNet][LOG] {event_type}: {{payload}}")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -52,8 +54,10 @@ async def lifespan(app: FastAPI):
             db.commit()
         from backend.seed_red_feather import ensure_red_feather_seed
         from backend.seed_navmesh import ensure_navmesh_seed
+        from backend.seed_sphere import ensure_sphere_seed
         ensure_red_feather_seed(db)
         ensure_navmesh_seed(db)
+        ensure_sphere_seed(db)
     finally:
         db.close()
 
@@ -62,7 +66,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorClimbs", version="0.8.0-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorClimbs", version="0.9.0-edge", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -78,26 +82,28 @@ app.include_router(practices_router.router)
 app.include_router(stonefield_router.router)
 app.include_router(navmesh_router.router)
 app.include_router(forum_router.router)
+app.include_router(sphere_router.router)
 
 @app.get("/")
 def root():
-    return {
-        "message": "JuniorClimbs — POS + IoT + StoneField + NavMesh + ForumMesh + BitNetField",
+    return {{
+        "message": "JuniorClimbs — POS + StoneField + NavMesh + Forum + RegionSphere",
         "offline": True,
         "vendor_links": False,
-        "forum": "/forum/events",
+        "arenas": "/arena",
+        "sphere_view": "/sphere/view/1",
         "nav": "/nav/status",
-        "stonefield": "/stonefield/red-feather",
+        "forum": "/forum/events",
         "bitnet_field": "/bitnet-field/status",
-    }
+    }}
 
 @app.get("/bitnet/status")
 def bitnet_status(user: str = Depends(get_current_user)):
-    return {
+    return {{
         "running": bitnet_service.running,
         "inference_active": bitnet_service.thread is not None and bitnet_service.thread.is_alive(),
-        "note": "Gym IoT BitNet + FieldCore for crowd StoneField/NavMesh"
-    }
+        "note": "Gym IoT BitNet + FieldCore heading-lock for RegionSphere"
+    }}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
