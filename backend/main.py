@@ -15,6 +15,7 @@ from backend.routers import navmesh as navmesh_router
 from backend.routers import forum as forum_router
 from backend.routers import sphere as sphere_router
 from backend.routers import source as source_router
+from backend.routers import health as health_router
 from backend.models_stonefield import StoneField  # noqa: F401
 from backend.models_navmesh import TilePack  # noqa: F401
 from backend.models_forum import CrowdEvent  # noqa: F401
@@ -23,6 +24,7 @@ from backend.models_source import SourceProject  # noqa: F401
 from backend.models_programs import GymProgram  # noqa: F401
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
+from backend.beta_boot import seed_all
 
 def get_db():
     db = SessionLocal()
@@ -56,14 +58,7 @@ async def lifespan(app: FastAPI):
             ]
             db.add_all(seed)
             db.commit()
-        from backend.seed_red_feather import ensure_red_feather_seed
-        from backend.seed_navmesh import ensure_navmesh_seed
-        from backend.seed_sphere import ensure_sphere_seed
-        from backend.seed_front_range import ensure_front_range_seed
-        ensure_red_feather_seed(db)
-        ensure_navmesh_seed(db)
-        ensure_sphere_seed(db)
-        ensure_front_range_seed(db)
+        seed_all(db)
     finally:
         db.close()
 
@@ -72,7 +67,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorStoneField on JuniorClimbs", version="0.9.2-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorStoneField on JuniorClimbs", version="0.9.3-beta", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -91,15 +86,18 @@ app.include_router(navmesh_router.router)
 app.include_router(forum_router.router)
 app.include_router(sphere_router.router)
 app.include_router(source_router.router)
+app.include_router(health_router.router)
 
 @app.get("/")
 def root():
     return {
         "product": "JuniorStoneField",
         "host": "JuniorClimbs",
+        "version": "0.9.3-beta",
         "offline": True,
         "vendor_links": False,
         "hub": "/stonefield/app",
+        "health": "/stonefield/health",
         "terms": "/stonefield/terms",
         "programs": "/stonefield/programs",
     }
