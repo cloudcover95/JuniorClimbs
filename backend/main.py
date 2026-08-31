@@ -10,6 +10,7 @@ from backend.database import init_db, SessionLocal
 from backend.mvp.pos import Product
 from backend.routers import pos as pos_router, athletes as athletes_router, practices as practices_router
 from backend.routers import stonefield as stonefield_router
+from backend.routers import stonefield_app as stonefield_app_router
 from backend.routers import navmesh as navmesh_router
 from backend.routers import forum as forum_router
 from backend.routers import sphere as sphere_router
@@ -19,6 +20,7 @@ from backend.models_navmesh import TilePack  # noqa: F401
 from backend.models_forum import CrowdEvent  # noqa: F401
 from backend.models_sphere import ArenaNode  # noqa: F401
 from backend.models_source import SourceProject  # noqa: F401
+from backend.models_programs import GymProgram  # noqa: F401
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -70,7 +72,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorClimbs", version="0.9.1-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorStoneField on JuniorClimbs", version="0.9.2-edge", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -84,6 +86,7 @@ app.include_router(pos_router.router)
 app.include_router(athletes_router.router)
 app.include_router(practices_router.router)
 app.include_router(stonefield_router.router)
+app.include_router(stonefield_app_router.router)
 app.include_router(navmesh_router.router)
 app.include_router(forum_router.router)
 app.include_router(sphere_router.router)
@@ -92,12 +95,13 @@ app.include_router(source_router.router)
 @app.get("/")
 def root():
     return {
-        "message": "JuniorClimbs — Front Range seeds + SourceLedger",
+        "product": "JuniorStoneField",
+        "host": "JuniorClimbs",
         "offline": True,
         "vendor_links": False,
-        "fields": "/stonefield/fields",
-        "source": "/source/schema",
-        "arenas": "/arena",
+        "hub": "/stonefield/app",
+        "terms": "/stonefield/terms",
+        "programs": "/stonefield/programs",
     }
 
 @app.get("/bitnet/status")
@@ -105,7 +109,7 @@ def bitnet_status(user: str = Depends(get_current_user)):
     return {
         "running": bitnet_service.running,
         "inference_active": bitnet_service.thread is not None and bitnet_service.thread.is_alive(),
-        "note": "Gym IoT BitNet + FieldCore + licensed community source",
+        "note": "JuniorStoneField + gym IoT BitNet",
     }
 
 if __name__ == "__main__":
