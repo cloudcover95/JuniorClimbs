@@ -11,8 +11,11 @@ from backend.mvp.pos import Product
 from backend.routers import pos as pos_router, athletes as athletes_router, practices as practices_router
 from backend.routers import stonefield as stonefield_router
 from backend.routers import navmesh as navmesh_router
-from backend.models_stonefield import StoneField  # noqa: F401 — register additive tables
-from backend.models_navmesh import TilePack  # noqa: F401 — register nav tables
+from backend.routers import crowdmesh as crowdmesh_router
+from backend.routers import field_bitnet as field_bitnet_router
+from backend.models_stonefield import StoneField  # noqa: F401
+from backend.models_navmesh import TilePack  # noqa: F401
+from backend.models_crowdmesh import CrowdEnvelope  # noqa: F401
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -32,7 +35,6 @@ def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.username
 
 def _bitnet_log_callback(event_type: str, payload: dict):
-    """Example callback — persist to DB or trigger automerge CRDT sync."""
     print(f"[BitNet][LOG] {event_type}: {payload}")
 
 @asynccontextmanager
@@ -61,7 +63,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorClimbs", version="0.7.0-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorClimbs", version="0.8.0-edge", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -76,16 +78,19 @@ app.include_router(athletes_router.router)
 app.include_router(practices_router.router)
 app.include_router(stonefield_router.router)
 app.include_router(navmesh_router.router)
+app.include_router(crowdmesh_router.router)
+app.include_router(field_bitnet_router.router)
 
 @app.get("/")
 def root():
     return {
-        "message": "JuniorClimbs — POS + BitNet IoT + StoneField + NavMesh (offline)",
-        "bitnet": "active",
+        "message": "JuniorClimbs — POS + IoT + StoneField + NavMesh + CrowdMesh + FieldBitNet",
         "offline_ledger": True,
         "vendor_links": False,
-        "stonefield": "/stonefield/red-feather",
+        "decentralized_forum": "/crowd/envelopes",
+        "fieldbitnet": "/fieldbitnet/status",
         "nav": "/nav/status",
+        "stonefield": "/stonefield/red-feather",
     }
 
 @app.get("/bitnet/status")
@@ -93,7 +98,8 @@ def bitnet_status(user: str = Depends(get_current_user)):
     return {
         "running": bitnet_service.running,
         "inference_active": bitnet_service.thread is not None and bitnet_service.thread.is_alive(),
-        "note": "Local 1.58-bit LLM • future NVIDIA CUDA / MLX / TensorRT acceleration ready"
+        "fieldbitnet": "/fieldbitnet/status",
+        "note": "Gym IoT BitNet + FieldBitNet (StoneField/NavMesh/Crowd) both local",
     }
 
 if __name__ == "__main__":
