@@ -10,7 +10,9 @@ from backend.database import init_db, SessionLocal
 from backend.mvp.pos import Product
 from backend.routers import pos as pos_router, athletes as athletes_router, practices as practices_router
 from backend.routers import stonefield as stonefield_router
+from backend.routers import navmesh as navmesh_router
 from backend.models_stonefield import StoneField  # noqa: F401 — register additive tables
+from backend.models_navmesh import TilePack  # noqa: F401 — register nav tables
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -32,7 +34,6 @@ def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
 def _bitnet_log_callback(event_type: str, payload: dict):
     """Example callback — persist to DB or trigger automerge CRDT sync."""
     print(f"[BitNet][LOG] {event_type}: {payload}")
-    # Future: db.add(AscentLog(**payload)) or similar
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -49,7 +50,9 @@ async def lifespan(app: FastAPI):
             db.add_all(seed)
             db.commit()
         from backend.seed_red_feather import ensure_red_feather_seed
+        from backend.seed_navmesh import ensure_navmesh_seed
         ensure_red_feather_seed(db)
+        ensure_navmesh_seed(db)
     finally:
         db.close()
 
@@ -58,7 +61,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorClimbs", version="0.6.0-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorClimbs", version="0.7.0-edge", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -72,14 +75,17 @@ app.include_router(pos_router.router)
 app.include_router(athletes_router.router)
 app.include_router(practices_router.router)
 app.include_router(stonefield_router.router)
+app.include_router(navmesh_router.router)
 
 @app.get("/")
 def root():
     return {
-        "message": "JuniorClimbs edge-native POS + BitNet IoT + JuniorStoneField live",
+        "message": "JuniorClimbs — POS + BitNet IoT + StoneField + NavMesh (offline)",
         "bitnet": "active",
         "offline_ledger": True,
+        "vendor_links": False,
         "stonefield": "/stonefield/red-feather",
+        "nav": "/nav/status",
     }
 
 @app.get("/bitnet/status")
