@@ -9,6 +9,8 @@ import uvicorn
 from backend.database import init_db, SessionLocal
 from backend.mvp.pos import Product
 from backend.routers import pos as pos_router, athletes as athletes_router, practices as practices_router
+from backend.routers import stonefield as stonefield_router
+from backend.models_stonefield import StoneField  # noqa: F401 — register additive tables
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -46,6 +48,8 @@ async def lifespan(app: FastAPI):
             ]
             db.add_all(seed)
             db.commit()
+        from backend.seed_red_feather import ensure_red_feather_seed
+        ensure_red_feather_seed(db)
     finally:
         db.close()
 
@@ -54,7 +58,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorClimbs", version="0.5.0-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorClimbs", version="0.6.0-edge", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -67,10 +71,16 @@ app.add_middleware(
 app.include_router(pos_router.router)
 app.include_router(athletes_router.router)
 app.include_router(practices_router.router)
+app.include_router(stonefield_router.router)
 
 @app.get("/")
 def root():
-    return {"message": "JuniorClimbs edge-native POS + BitNet IoT live", "bitnet": "active", "offline_ledger": True}
+    return {
+        "message": "JuniorClimbs edge-native POS + BitNet IoT + JuniorStoneField live",
+        "bitnet": "active",
+        "offline_ledger": True,
+        "stonefield": "/stonefield/red-feather",
+    }
 
 @app.get("/bitnet/status")
 def bitnet_status(user: str = Depends(get_current_user)):
