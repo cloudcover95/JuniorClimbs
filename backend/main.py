@@ -11,11 +11,10 @@ from backend.mvp.pos import Product
 from backend.routers import pos as pos_router, athletes as athletes_router, practices as practices_router
 from backend.routers import stonefield as stonefield_router
 from backend.routers import navmesh as navmesh_router
-from backend.routers import crowdmesh as crowdmesh_router
-from backend.routers import field_bitnet as field_bitnet_router
+from backend.routers import forum as forum_router
 from backend.models_stonefield import StoneField  # noqa: F401
 from backend.models_navmesh import TilePack  # noqa: F401
-from backend.models_crowdmesh import CrowdEnvelope  # noqa: F401
+from backend.models_forum import CrowdEvent  # noqa: F401
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -78,19 +77,18 @@ app.include_router(athletes_router.router)
 app.include_router(practices_router.router)
 app.include_router(stonefield_router.router)
 app.include_router(navmesh_router.router)
-app.include_router(crowdmesh_router.router)
-app.include_router(field_bitnet_router.router)
+app.include_router(forum_router.router)
 
 @app.get("/")
 def root():
     return {
-        "message": "JuniorClimbs — POS + IoT + StoneField + NavMesh + CrowdMesh + FieldBitNet",
-        "offline_ledger": True,
+        "message": "JuniorClimbs — POS + IoT + StoneField + NavMesh + ForumMesh + BitNetField",
+        "offline": True,
         "vendor_links": False,
-        "decentralized_forum": "/crowd/envelopes",
-        "fieldbitnet": "/fieldbitnet/status",
+        "forum": "/forum/events",
         "nav": "/nav/status",
         "stonefield": "/stonefield/red-feather",
+        "bitnet_field": "/bitnet-field/status",
     }
 
 @app.get("/bitnet/status")
@@ -98,8 +96,7 @@ def bitnet_status(user: str = Depends(get_current_user)):
     return {
         "running": bitnet_service.running,
         "inference_active": bitnet_service.thread is not None and bitnet_service.thread.is_alive(),
-        "fieldbitnet": "/fieldbitnet/status",
-        "note": "Gym IoT BitNet + FieldBitNet (StoneField/NavMesh/Crowd) both local",
+        "note": "Gym IoT BitNet + FieldCore for crowd StoneField/NavMesh"
     }
 
 if __name__ == "__main__":
