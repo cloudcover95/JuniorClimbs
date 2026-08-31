@@ -36,7 +36,7 @@ def get_current_user(credentials: HTTPBasicCredentials = Depends(security)):
     return credentials.username
 
 def _bitnet_log_callback(event_type: str, payload: dict):
-    print(f"[BitNet][LOG] {event_type}: {{payload}}")
+    print("[BitNet][LOG]", event_type, payload)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -86,7 +86,7 @@ app.include_router(sphere_router.router)
 
 @app.get("/")
 def root():
-    return {{
+    return {
         "message": "JuniorClimbs — POS + StoneField + NavMesh + Forum + RegionSphere",
         "offline": True,
         "vendor_links": False,
@@ -95,15 +95,15 @@ def root():
         "nav": "/nav/status",
         "forum": "/forum/events",
         "bitnet_field": "/bitnet-field/status",
-    }}
+    }
 
 @app.get("/bitnet/status")
 def bitnet_status(user: str = Depends(get_current_user)):
-    return {{
+    return {
         "running": bitnet_service.running,
         "inference_active": bitnet_service.thread is not None and bitnet_service.thread.is_alive(),
-        "note": "Gym IoT BitNet + FieldCore heading-lock for RegionSphere"
-    }}
+        "note": "Gym IoT BitNet + FieldCore heading-lock for RegionSphere",
+    }
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
