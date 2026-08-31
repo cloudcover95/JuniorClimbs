@@ -1,0 +1,27 @@
+{
+  "format": "junior-source-v1",
+  "license": "CC-BY-4.0",
+  "attribution": "juniorcloud-community-stub",
+  "project_name": "Flagstaff Crown community stub",
+  "field_name": "Flagstaff Mountain",
+  "homepage": "",
+  "notes": "Stub pack so the ingest path is exercised. Replace descriptions with your own licensed beta.",
+  "nodes": [
+    {
+      "name": "Crown Rock",
+      "lat": 40.0018,
+      "lon": -105.2965,
+      "rock_type": "sandstone",
+      "subarea": "Crown / Monkey"
+    }
+  ],
+  "problems": [
+    {
+      "node_name": "Crown Rock",
+      "name": "community-line-placeholder",
+      "grade": "V0",
+      "style": "boulder",
+      "description": "Placeholder only. Submit a real licensed line via /source/import."
+    }
+  ]
+}

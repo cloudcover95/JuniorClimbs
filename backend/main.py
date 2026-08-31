@@ -13,10 +13,12 @@ from backend.routers import stonefield as stonefield_router
 from backend.routers import navmesh as navmesh_router
 from backend.routers import forum as forum_router
 from backend.routers import sphere as sphere_router
+from backend.routers import source as source_router
 from backend.models_stonefield import StoneField  # noqa: F401
 from backend.models_navmesh import TilePack  # noqa: F401
 from backend.models_forum import CrowdEvent  # noqa: F401
 from backend.models_sphere import ArenaNode  # noqa: F401
+from backend.models_source import SourceProject  # noqa: F401
 from backend.services.bitnet_iot import bitnet_service
 from backend.auth import get_current_user
 
@@ -55,9 +57,11 @@ async def lifespan(app: FastAPI):
         from backend.seed_red_feather import ensure_red_feather_seed
         from backend.seed_navmesh import ensure_navmesh_seed
         from backend.seed_sphere import ensure_sphere_seed
+        from backend.seed_front_range import ensure_front_range_seed
         ensure_red_feather_seed(db)
         ensure_navmesh_seed(db)
         ensure_sphere_seed(db)
+        ensure_front_range_seed(db)
     finally:
         db.close()
 
@@ -66,7 +70,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorClimbs", version="0.9.0-edge", lifespan=lifespan)
+app = FastAPI(title="JuniorClimbs", version="0.9.1-edge", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -83,18 +87,17 @@ app.include_router(stonefield_router.router)
 app.include_router(navmesh_router.router)
 app.include_router(forum_router.router)
 app.include_router(sphere_router.router)
+app.include_router(source_router.router)
 
 @app.get("/")
 def root():
     return {
-        "message": "JuniorClimbs — POS + StoneField + NavMesh + Forum + RegionSphere",
+        "message": "JuniorClimbs — Front Range seeds + SourceLedger",
         "offline": True,
         "vendor_links": False,
+        "fields": "/stonefield/fields",
+        "source": "/source/schema",
         "arenas": "/arena",
-        "sphere_view": "/sphere/view/1",
-        "nav": "/nav/status",
-        "forum": "/forum/events",
-        "bitnet_field": "/bitnet-field/status",
     }
 
 @app.get("/bitnet/status")
@@ -102,7 +105,7 @@ def bitnet_status(user: str = Depends(get_current_user)):
     return {
         "running": bitnet_service.running,
         "inference_active": bitnet_service.thread is not None and bitnet_service.thread.is_alive(),
-        "note": "Gym IoT BitNet + FieldCore heading-lock for RegionSphere",
+        "note": "Gym IoT BitNet + FieldCore + licensed community source",
     }
 
 if __name__ == "__main__":
