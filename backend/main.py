@@ -67,7 +67,7 @@ async def lifespan(app: FastAPI):
     yield
     bitnet_service.stop()
 
-app = FastAPI(title="JuniorStoneField on JuniorClimbs", version="0.9.3-beta", lifespan=lifespan)
+app = FastAPI(title="JuniorStoneField on JuniorClimbs", version="0.9.4-beta", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -87,19 +87,26 @@ app.include_router(forum_router.router)
 app.include_router(sphere_router.router)
 app.include_router(source_router.router)
 app.include_router(health_router.router)
+try:
+    from backend.routers import gaia as gaia_router
+    app.include_router(gaia_router.router)
+except Exception:
+    gaia_router = None
 
 @app.get("/")
 def root():
     return {
         "product": "JuniorStoneField",
         "host": "JuniorClimbs",
-        "version": "0.9.3-beta",
+        "version": "0.9.4-beta",
         "offline": True,
         "vendor_links": False,
         "hub": "/stonefield/app",
         "health": "/stonefield/health",
         "terms": "/stonefield/terms",
         "programs": "/stonefield/programs",
+        "gaia": "/api/v1/gaia/status",
+        "domain_agnostic_cores": True,
     }
 
 @app.get("/bitnet/status")
